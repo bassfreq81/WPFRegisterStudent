@@ -52,15 +52,61 @@ namespace WPFRegisterStudent
             this.textBox.Text = "";
         }
 
+#pragma warning disable IDE1006 // Naming Styles
         private void button_Click(object sender, RoutedEventArgs e)
+#pragma warning restore IDE1006 // Naming Styles
         {
+            //Adds the choice to the registered courses textbox
             choice = (Course)(this.comboBox.SelectedItem);
 
-            // TO DO - Create code to validate user selection (the choice object)
-            // and to display an error or a registation confirmation message accordinlgy
-            // Also update the total credit hours textbox if registration is confirmed for a selected course
+            //Performs the validation
 
+            //Starts a nested if statement that first checks if class
+            //has already been registered
+            if (choice.IsRegisteredAlready() == true)
+
+                label3.Content = ("You have already registered for this course " + choice +".");
+
+            //Validates no more that 9 credits have been chosen
+            else if (this.textBox.Text == "9")
+
+                label3.Content = ("You cannot register for more than 9 credit hours.");
+
+            //If class is not registered it performs this else statement
+            else
+            {
+                //Adds choice to list box
+                this.listBox.Items.Add(choice);
+                //Assigns course to registered
+                choice.SetToRegistered();
+
+                //Starts the Total credit hours to 0
+                //If credit hours is 0 once course is registered it adds 3 credits
+                if (this.textBox.Text == "")
+
+                    this.textBox.Text = "3";
+
+                //If credit hours is 3 once course is registered it adds 3 credits
+                else if (this.textBox.Text == "3")
+
+                    this.textBox.Text = "6";
+
+                //If credit hours is 6 once course is registered it adds 3 credits
+                else if (this.textBox.Text == "6")
+
+                    this.textBox.Text = "9";
+
+                //After course is sucessfully registered it displays confirmation
+                label3.Content = ("Registration confirmed for course " + choice + ".");
+            }
         }
 
-    }
+#pragma warning disable IDE1006 // Naming Styles
+        //This adds a Close button which allows users to exit
+        private void exit_Click_1(object sender, RoutedEventArgs e)
+#pragma warning restore IDE1006 // Naming Styles
+        {
+            this.Close();
+        }
+    }   
 }
